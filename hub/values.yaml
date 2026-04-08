@@ -1,0 +1,84 @@
+image:
+  registry: ghcr.io
+  repository: traefik/traefik-hub
+  tag: "v3.19.4"
+  # tag: "v3.6.12"
+deployment:
+  replicas: 1
+ingressRoute:
+  dashboard:
+    enabled: false
+ingressClass:
+  enabled: false
+providers:
+  kubernetesCRD:
+    enabled: true
+    allowCrossNamespace: true
+    allowExternalNameServices: true
+    allowEmptyServices: true
+logs:
+  general:
+    format: json
+    level: DEBUG
+  access:
+    enabled: true
+    format: json
+    addInternals: true
+    fields:
+      general:
+        defaultmode: keep
+      headers:
+        defaultmode: keep
+env:
+- name: GANDIV5_PERSONAL_ACCESS_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: dnsapikey
+      key: token
+- name: LEGO_DISABLE_CNAME_SUPPORT
+  value: "true"
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 256Mi
+    cpu: 100m
+hub:
+  token: hub-license
+certificatesResolvers:
+  le:
+    distributedAcme:
+      email: "david.blaskow@traefik.io"
+      dnsChallenge:
+        provider: gandiv5
+        delayBeforeCheck: 20
+        disablePropagationCheck: true
+      storage: 
+        kubernetes: true
+# certificatesResolvers:
+#   le:
+#     acme:
+#       email: "david.blaskow@traefik.io"
+#       dnsChallenge:
+#         provider: gandiv5
+#       storage: /tmp/acme.json
+ports:
+  web:
+    http:
+      redirections:
+        entryPoint: 
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    http:
+      tls:
+        enabled: true
+        certResolver: le
+        domains:
+          - main: "dbl26tstw16.mageekbox.eu"
+            sans: 
+              - "*.dbl26tstw16.mageekbox.eu"
+              - "*.sub1.dbl26tstw16.mageekbox.eu"
+              - "*.sub2.dbl26tstw16.mageekbox.eu"
