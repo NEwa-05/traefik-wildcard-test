@@ -9,7 +9,7 @@ export KUBECONFIG=$(pwd)/.kubeconfig
 export CLUSTERNAME=""
 export DOMAINNAME=""
 export HUB_TOKEN=""
-export GANDIV5_API_KEY=
+export GANDIV5_PERSONAL_ACCESS_TOKEN=
 ```
 
 or
