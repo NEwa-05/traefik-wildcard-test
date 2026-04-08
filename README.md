@@ -35,7 +35,7 @@ kubectl create secret generic hub-license --from-literal=token="${HUB_TOKEN}" -n
 ### Set DNS Token for LE DNS Challenge
 
 ```shell
-kubectl create secret generic dnsapikey --namespace traefik --from-literal=token=${GANDIV5_API_KEY}
+kubectl create secret generic dnsapikey --namespace traefik --from-literal=token=${GANDIV5_PERSONAL_ACCESS_TOKEN}
 ```
 
 ```shell
@@ -54,7 +54,7 @@ ADDRECORD='{
   ]
 }'
 curl -s -X POST -d $ADDRECORD \
-  -H "Authorization: Bearer $GANDIV5_API_KEY" \
+  -H "Authorization: Bearer $GANDIV5_PERSONAL_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   https://api.gandi.net/v5/livedns/domains/$DOMAINNAME/records
 ```
