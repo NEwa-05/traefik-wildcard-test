@@ -58,7 +58,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`whoami.${CLUSTERNAME}.${DOMAINNAME}`)
+  - match: Host(`whoami.sub2.${CLUSTERNAME}.${DOMAINNAME}`)
     kind: Rule
     services:
     - name: whoami

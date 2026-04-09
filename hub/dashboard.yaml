@@ -13,6 +13,6 @@ spec:
     services:
     - name: api@internal
       kind: TraefikService
-  tls:
-    certResolver: le
-  # tls: {}
+  tls: {}
+  # tls:
+  #   certResolver: le

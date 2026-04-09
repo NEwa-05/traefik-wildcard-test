@@ -1,8 +1,8 @@
 image:
-  registry: ghcr.io
-  repository: traefik/traefik-hub
-  tag: "v3.19.4"
-  # tag: "v3.6.12"
+  # registry: ghcr.io
+  # repository: traefik/traefik-hub
+  # tag: "v3.19.4"
+  tag: "v3.6.12"
 deployment:
   replicas: 1
 ingressRoute:
@@ -44,25 +44,25 @@ resources:
   limits:
     memory: 256Mi
     cpu: 100m
-hub:
-  token: hub-license
-certificatesResolvers:
-  le:
-    distributedAcme:
-      email: "david.blaskow@traefik.io"
-      dnsChallenge:
-        provider: gandiv5
-        delayBeforeCheck: 20
-        disablePropagationCheck: true
-      storage: 
-        kubernetes: true
+# hub:
+#   token: hub-license
 # certificatesResolvers:
 #   le:
-#     acme:
+#     distributedAcme:
 #       email: "david.blaskow@traefik.io"
 #       dnsChallenge:
 #         provider: gandiv5
-#       storage: /tmp/acme.json
+#         delayBeforeCheck: 20
+#         disablePropagationCheck: true
+#       storage: 
+#         kubernetes: true
+certificatesResolvers:
+  le:
+    acme:
+      email: "david.blaskow@traefik.io"
+      dnsChallenge:
+        provider: gandiv5
+      storage: /tmp/acme.json
 ports:
   web:
     http:
@@ -75,10 +75,20 @@ ports:
     http:
       tls:
         enabled: true
-        certResolver: le
-        domains:
-          - main: "dbl26tstw16.mageekbox.eu"
-            sans: 
-              - "*.dbl26tstw16.mageekbox.eu"
-              - "*.sub1.dbl26tstw16.mageekbox.eu"
-              - "*.sub2.dbl26tstw16.mageekbox.eu"
+        # certResolver: le
+        # domains:
+        #   - main: "dbl26tst2w16.mageekbox.eu"
+        #     sans: 
+        #       - "*.dbl26tst2w16.mageekbox.eu"
+        #       - "*.sub1.dbl26tst2w16.mageekbox.eu"
+        #       - "*.sub2.dbl26tst2w16.mageekbox.eu"
+tlsStore:
+  default:
+    defaultGeneratedCert:
+      resolver: le
+      domain:
+        main: "dbl26tst2w16.mageekbox.eu"
+        sans:
+          - "*.dbl26tst2w16.mageekbox.eu"
+          - "*.sub1.dbl26tst2w16.mageekbox.eu"
+          - "*.sub2.dbl26tst2w16.mageekbox.eu"
